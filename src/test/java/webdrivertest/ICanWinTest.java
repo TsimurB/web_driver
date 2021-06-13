@@ -4,9 +4,9 @@ import driver.ChromeDriverProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import pageobject.MainPage;
+import pageobject.MainPageICanWin;
 
-public class MainPageTest {
+public class ICanWinTest {
     @AfterEach
     public void closeDriver(){
     ChromeDriverProvider.getDriver().close();
@@ -14,7 +14,7 @@ public class MainPageTest {
 
     @Test
     public void firstTest() {
-        MainPage mainPage = new MainPage(ChromeDriverProvider.getDriver());
+        MainPageICanWin mainPage = new MainPageICanWin(ChromeDriverProvider.getDriver());
         mainPage.open()
                 .enterTextToPasteField("Hello from WebDriver")
                 .setExpiration("10 Minutes")
