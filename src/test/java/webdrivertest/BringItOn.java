@@ -1,27 +1,54 @@
 package webdrivertest;
 
 import driver.ChromeDriverProvider;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import pageobject.MainPageBringItOn;
-import pageobject.MainPageICanWin;
+import org.junit.jupiter.api.*;
+import pageobjectpastebin.CreatedPastePage;
+import pageobjectpastebin.MainPage;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static util.Util.getPageTitle;
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BringItOn {
-    @AfterEach
+    private static final String TITLE = "how to gain dominance among developers";
+    private static final String HIGHLIGHTING = "Bash";
+    private static final String CODE = "git config --global user.name  \"New Sheriff in Town\"\n" +
+            "git reset $(git commit-tree HEAD^{tree} -m \"Legacy code\")\n" +
+            "git push origin master --force";
+    private CreatedPastePage createdPastePage;
+
+    @AfterAll
     public void closeDriver() {
         ChromeDriverProvider.getDriver().close();
     }
 
-    @Test
-    public void secondTest() {
-        MainPageBringItOn mainPage = new MainPageBringItOn(ChromeDriverProvider.getDriver());
-        mainPage.open()
-                .enterTextToPasteField("git config --global user.name  \"New Sheriff in Town\"\n" +
-                        "git reset $(git commit-tree HEAD^{tree} -m \"Legacy code\")\n" +
-                        "git push origin master --force")
-                .setHihlighting("Bash")
+    @BeforeAll
+    public void preparation() {
+        MainPage mainPage = new MainPage(ChromeDriverProvider.getDriver());
+        createdPastePage = mainPage.open()
+                .enterTextToPasteField(CODE)
+                .setHihlighting(HIGHLIGHTING)
                 .setExpiration("10 Minutes")
-                .setNameTitle("how to gain dominance among developers")
-                .newPage();
+                .setNameTitle(TITLE)
+                .createPaste();
     }
+
+    @Test
+    public void verifyThatTitleCorrectTest() {
+        assertThat(getPageTitle())
+                .contains(TITLE);
+    }
+
+    @Test
+    public void verifyCodeHighlightingCorrectTest() {
+        assertThat(createdPastePage.getHihlighting())
+                .contains(HIGHLIGHTING);
+    }
+
+    @Test
+    public void verifyCodeCorrectTest() {
+        assertThat(createdPastePage.getCode())
+                .contains(CODE);
+    }
+
 }

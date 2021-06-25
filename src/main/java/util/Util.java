@@ -1,5 +1,9 @@
 package util;
 
+import org.openqa.selenium.By;
+
+import static driver.ChromeDriverProvider.getDriver;
+
 public abstract class Util {
     public static void sleep(int time) {
         try {
@@ -8,4 +12,12 @@ public abstract class Util {
             e.printStackTrace();
         }
     }
+
+    public static String getPageTitle() {
+        return getDriver().getTitle();
+    }
+
+//    public static String getPageValue(By resBash){
+//        return getDriver().getPageSource();
+//    }
 }

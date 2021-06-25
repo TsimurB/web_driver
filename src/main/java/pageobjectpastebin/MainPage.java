@@ -1,11 +1,11 @@
-package pageobject;
+package pageobjectpastebin;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import static util.Util.sleep;
 
-public class MainPageICanWin {
+public class MainPage {
 
     private static final String PAGE_ADDRESS = "https://pastebin.com";
     private WebDriver driver;
@@ -13,39 +13,42 @@ public class MainPageICanWin {
     private By pasteExpirationDDL = By.id("select2-postform-expiration-container");
     private By pasteNameTitle = By.id("postform-name");
     private By submit = By.xpath("//button[@class='btn -big']");
+    private By SyntaxHighlightingDDL = By.id("select2-postform-format-container");
 
-    public MainPageICanWin(WebDriver driver) {
+    public MainPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public MainPageICanWin open() {
+    public MainPage open() {
         driver.get(PAGE_ADDRESS);
         return this;
     }
 
-    public MainPageICanWin enterTextToPasteField(String text) {
+    public MainPage enterTextToPasteField(String text) {
         driver.findElement(pasteField).sendKeys(text);
-        sleep(2000);
         return this;
     }
 
-    public MainPageICanWin setExpiration(String time) {
+    public MainPage setExpiration(String time) {
         driver.findElement(pasteExpirationDDL).click();
-        sleep(2000);
         driver.findElement(By.xpath(String.format("//li[text()='%s']", time))).click();
-        sleep(2000);
         return this;
     }
 
-    public MainPageICanWin setNameTitle(String text) {
+    public MainPage setNameTitle(String text) {
         driver.findElement(pasteNameTitle).sendKeys(text);
-        sleep(2000);
         return this;
     }
 
-    public MainPageICanWin newPage() {
+    public CreatedPastePage createPaste() {
         driver.findElement(submit).click();
         sleep(2000);
-        return newPage();
+        return new CreatedPastePage(driver);
+    }
+
+    public MainPage setHihlighting(String lang) {
+        driver.findElement(SyntaxHighlightingDDL).click();
+        driver.findElement(By.xpath(String.format("//li[text()='%s']", lang))).click();
+        return this;
     }
 }

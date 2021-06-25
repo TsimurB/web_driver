@@ -4,7 +4,7 @@ import driver.ChromeDriverProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import pageobject.MainPageICanWin;
+import pageobjectpastebin.MainPage;
 
 public class ICanWinTest {
     @AfterEach
@@ -14,12 +14,12 @@ public class ICanWinTest {
 
     @Test
     public void firstTest() {
-        MainPageICanWin mainPage = new MainPageICanWin(ChromeDriverProvider.getDriver());
+        MainPage mainPage = new MainPage(ChromeDriverProvider.getDriver());
         mainPage.open()
                 .enterTextToPasteField("Hello from WebDriver")
                 .setExpiration("10 Minutes")
                 .setNameTitle("helloweb")
-                .newPage();
+                .createPaste();
     }
 
 }
