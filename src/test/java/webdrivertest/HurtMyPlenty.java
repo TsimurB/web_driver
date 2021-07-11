@@ -1,6 +1,7 @@
 package webdrivertest;
 
 import driver.ChromeDriverProvider;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,32 +10,32 @@ import pageobjectgooglecloud.EstimatePage;
 import pageobjectgooglecloud.MainPage;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static util.Util.getPageTitle;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HurtMyPlenty {
 
-    private static final String VMCLASS = "Regular";
-    private static final String INSTANCETYPE = "n1-standard-8 (vCPUs: 8, RAM: 30GB)";
-    private static final String REGION = "Frankfurt (europe-west3)";
-    private static final String LOCALSSD = "2x375 GB";
-    private static final String COMMITMENTTERM = "1 Year";
     private EstimatePage estimatePage;
 
-
-//    public static class Knjkfl {
-//        public static void main(String[] args) {
-//            System.out.println("30 GB 30 GiB".replaceAll("[GB | GiB]", "").trim());
-//        }
-//    }
+    @BeforeAll
+    public void openDriver() {
+        ChromeDriverProvider.getDriver();
+    }
 
     @AfterAll
     public void closeDriver() {
         ChromeDriverProvider.getDriver().close();
     }
 
-    @BeforeAll
+    @Test
+    public void verifyThatTitleCorrectTest() {
+        String VMCLASS = "Regular";
+        String INSTANCETYPE = "n1-standard-8 (vCPUs: 8, RAM: 30GB)";
+        String REGION = "Frankfurt (europe-west3)";
+        String LOCALSSD = "2x375 GB";
+        String COMMITMENTTERM = "1 Year";
 
-    public void preparation() {
+
         this.estimatePage = new EstimatePage(ChromeDriverProvider.getDriver());
         MainPage mainPage = new MainPage(ChromeDriverProvider.getDriver());
         mainPage.open()
@@ -52,35 +53,47 @@ public class HurtMyPlenty {
                 .setDatacenterLocation(REGION)
                 .setCommittedUsage(COMMITMENTTERM)
                 .createEstimatePage();
-    }
 
-    @Test
-    public void verifyVMClassTest() {
-        assertThat(estimatePage.getVMClass())
-                .contains(VMCLASS);
-    }
-
-    @Test
-    public void verifyInstanceTypeTest() {
-        assertThat(estimatePage.getInstanceType())
+        SoftAssertions assertions = new SoftAssertions();
+        assertions.assertThat(estimatePage.getVMClass()).containsIgnoringCase(VMCLASS);
+        assertions.assertThat(estimatePage.getInstanceType())
                 .contains(INSTANCETYPE.replaceAll("\\(.*\\)", "").trim());
-    }
-
-    @Test
-    public void verifyRegionTest() {
-        assertThat(estimatePage.getRegion())
+        assertions.assertThat(estimatePage.getRegion())
                 .contains(REGION.replaceAll("\\(.*\\)", "").trim());
-    }
-
-    @Test
-    public void verifyLocalSSDTest() {
-        assertThat(estimatePage.getLocalSSD().replaceAll("[GB | GiB]", "").trim())
+        assertions.assertThat(estimatePage.getLocalSSD().replaceAll("[GB | GiB]", "").trim())
                 .contains(LOCALSSD.replaceAll("[GB | GiB]", "").trim());
+        assertions.assertThat(estimatePage.getCommitmentTerm())
+                .contains(COMMITMENTTERM);
+        assertions.assertAll();
     }
 
-    @Test
-    public void verifyCommitmentTermTest() {
-        assertThat(estimatePage.getCommitmentTerm())
-                .contains(COMMITMENTTERM);
-    }
+//    @Test
+//    public void verifyVMClassTest() {
+//        assertThat(estimatePage.getVMClass())
+//                .contains(VMCLASS);
+//    }
+
+//    @Test
+//    public void verifyInstanceTypeTest() {
+//        assertThat(estimatePage.getInstanceType())
+//                .contains(INSTANCETYPE.replaceAll("\\(.*\\)", "").trim());
+//    }
+
+//    @Test
+//    public void verifyRegionTest() {
+//        assertThat(estimatePage.getRegion())
+//                .contains(REGION.replaceAll("\\(.*\\)", "").trim());
+//    }
+
+//    @Test
+//    public void verifyLocalSSDTest() {
+//        assertThat(estimatePage.getLocalSSD().replaceAll("[GB | GiB]", "").trim())
+//                .contains(LOCALSSD.replaceAll("[GB | GiB]", "").trim());
+//    }
+
+//    @Test
+//    public void verifyCommitmentTermTest() {
+//        assertThat(estimatePage.getCommitmentTerm())
+//                .contains(COMMITMENTTERM);
+//    }
 }

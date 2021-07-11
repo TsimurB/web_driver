@@ -2,6 +2,9 @@ package pageobjectpastebin;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import static util.Util.sleep;
 
@@ -15,8 +18,14 @@ public class MainPage {
     private By submit = By.xpath("//button[@class='btn -big']");
     private By SyntaxHighlightingDDL = By.id("select2-postform-format-container");
 
+
+//    @FindBy(id = "postform-text");
+//    private WebElement input;
+
+
     public MainPage(WebDriver driver) {
-        this.driver = driver;
+                this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public MainPage open() {

@@ -5,11 +5,11 @@ import org.openqa.selenium.WebDriver;
 
 public class EstimatePage {
 
-    private By virtualMClass = By.xpath("//div[contains(text(),\"VM class: regular\")]");
-    private By instanceType = By.xpath("//div[contains(text(),\"Instance type: n1-standard-8\")]");
-    private By region = By.xpath("//div[contains(text(),\"Region: Frankfurt\")]");
-    private By localSSD = By.xpath("//div[contains(text(),\"local SSD space 2x375 GiB\")]");
-    private By commitmentTerm = By.xpath("//div[contains(text(),\"Commitment term: 1 Year\")]");
+    private By virtualMClass = By.xpath("//div[contains(text(),\"VM class: \")]");
+    private By instanceType = By.xpath("//div[contains(text(),\"Instance type: \")]");
+    private By region = By.xpath("//div[contains(text(),\"Region: \")]");
+    private By localSSD = By.xpath("//div[contains(text(),\"local SSD \")]");
+    private By commitmentTerm = By.xpath("//div[contains(text(),\"Commitment term: \")]");
     private final WebDriver driver;
 
 
