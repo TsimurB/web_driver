@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import static util.Util.click;
-import static util.Util.sleep;
 
 public class MainPage {
     private static final String PAGE_ADDRESS = "https://cloud.google.com/";
@@ -24,7 +23,7 @@ public class MainPage {
     }
 
     public MainPage searchPage(String text) {
-        driver.findElement(search).click();
+        click(search);
         driver.findElement(search).sendKeys(text);
         return this;
     }

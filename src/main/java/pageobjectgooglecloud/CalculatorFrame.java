@@ -1,19 +1,9 @@
 package pageobjectgooglecloud;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 
-import java.time.Duration;
-import java.util.function.Function;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static util.Util.click;
 import static util.Util.sleep;
 
@@ -33,6 +23,11 @@ public class CalculatorFrame {
     private final By committedUsageDDD = By.xpath("//label[text()=\"Committed usage\"]/following-sibling::md-select");
     private final By submitAddToEstimateComputeEngineForm = By.xpath("//form[@name=\"ComputeEngineForm\"]//button[@class=\"md-raised md-primary cpc-button md-button md-ink-ripple\"]");
 
+    private final By virtualMClass = By.xpath("//div[contains(text(),\"VM class: \")]");
+    private final By instanceType = By.xpath("//div[contains(text(),\"Instance type: \")]");
+    private final By region = By.xpath("//div[contains(text(),\"Region: \")]");
+    private final By localSSDcheck = By.xpath("//div[contains(text(),\"local SSD \")]");
+    private final By commitmentTerm = By.xpath("//div[contains(text(),\"Commitment term: \")]");
 
     private final WebDriver driver;
 
@@ -81,7 +76,7 @@ public class CalculatorFrame {
         click(numberOfGPUsDDD);
         click(By.xpath(String.format("//md-option[contains(@ng-repeat,\"supportedGpuNumbers\")]/div[contains(text(),'%s')]", number)));
         click(typeGPUsDDD);
-        click(By.xpath(String.format("//md-option/div[contains(text(),'%s')]", type)));
+        click(By.xpath(String.format("//md-option[contains(@ng-repeat,\"gpuList\")]/div[contains(text(),'%s')]", type)));
         return this;
     }
 
@@ -103,9 +98,25 @@ public class CalculatorFrame {
         return this;
     }
 
-    public EstimatePage createEstimatePage() {
+    public CalculatorFrame createEstimatePage() {
         click(submitAddToEstimateComputeEngineForm);
-        return new EstimatePage(driver);
+        return this;
+    }
+
+    public String getVMClass() {
+        return driver.findElement(virtualMClass).getText();
+    }
+
+    public String getInstanceType() {
+        return driver.findElement(instanceType).getText();
+    }
+
+    public String getRegion() { return driver.findElement(region).getText(); }
+
+    public String getLocalSSD() { return driver.findElement(localSSDcheck).getText(); }
+
+    public String getCommitmentTerm() {
+        return driver.findElement(commitmentTerm).getText();
     }
 
     private void clickAway() {

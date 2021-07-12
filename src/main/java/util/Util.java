@@ -29,6 +29,7 @@ public abstract class Util {
         getWait(5).until(driver -> ExpectedConditions.elementToBeClickable(locator));
         WebElement element1 = ChromeDriverProvider.getDriver().findElement(locator);
         element1.click();
+        sleep(500);
     }
 
     private static Wait getWait(int seconds){

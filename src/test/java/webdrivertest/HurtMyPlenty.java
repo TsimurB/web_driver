@@ -6,26 +6,23 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import pageobjectgooglecloud.EstimatePage;
+import pageobjectgooglecloud.CalculatorFrame;
 import pageobjectgooglecloud.MainPage;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static util.Util.getPageTitle;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HurtMyPlenty {
 
-    private EstimatePage estimatePage;
+    private CalculatorFrame calculatorFrame;
 
     @BeforeAll
     public void openDriver() {
         ChromeDriverProvider.getDriver();
     }
 
-    @AfterAll
-    public void closeDriver() {
-        ChromeDriverProvider.getDriver().close();
-    }
+//    @AfterAll
+//    public void closeDriver() {
+//        ChromeDriverProvider.getDriver().close();
+//    }
 
     @Test
     public void verifyThatTitleCorrectTest() {
@@ -36,7 +33,7 @@ public class HurtMyPlenty {
         String COMMITMENTTERM = "1 Year";
 
 
-        this.estimatePage = new EstimatePage(ChromeDriverProvider.getDriver());
+        this.calculatorFrame = new CalculatorFrame(ChromeDriverProvider.getDriver());
         MainPage mainPage = new MainPage(ChromeDriverProvider.getDriver());
         mainPage.open()
                 .searchPage("Google Cloud Platform Pricing Calculator" + "\n")
@@ -55,14 +52,14 @@ public class HurtMyPlenty {
                 .createEstimatePage();
 
         SoftAssertions assertions = new SoftAssertions();
-        assertions.assertThat(estimatePage.getVMClass()).containsIgnoringCase(VMCLASS);
-        assertions.assertThat(estimatePage.getInstanceType())
+        assertions.assertThat(calculatorFrame.getVMClass()).containsIgnoringCase(VMCLASS);
+        assertions.assertThat(calculatorFrame.getInstanceType())
                 .contains(INSTANCETYPE.replaceAll("\\(.*\\)", "").trim());
-        assertions.assertThat(estimatePage.getRegion())
+        assertions.assertThat(calculatorFrame.getRegion())
                 .contains(REGION.replaceAll("\\(.*\\)", "").trim());
-        assertions.assertThat(estimatePage.getLocalSSD().replaceAll("[GB | GiB]", "").trim())
+        assertions.assertThat(calculatorFrame.getLocalSSD().replaceAll("[GB | GiB]", "").trim())
                 .contains(LOCALSSD.replaceAll("[GB | GiB]", "").trim());
-        assertions.assertThat(estimatePage.getCommitmentTerm())
+        assertions.assertThat(calculatorFrame.getCommitmentTerm())
                 .contains(COMMITMENTTERM);
         assertions.assertAll();
     }
