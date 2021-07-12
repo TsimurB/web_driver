@@ -22,6 +22,7 @@ public class CalculatorFrame {
     private final By datacenterLocationDDD = By.xpath("//label[text()=\"Datacenter location\"]/following-sibling::md-select");
     private final By committedUsageDDD = By.xpath("//label[text()=\"Committed usage\"]/following-sibling::md-select");
     private final By submitAddToEstimateComputeEngineForm = By.xpath("//form[@name=\"ComputeEngineForm\"]//button[@class=\"md-raised md-primary cpc-button md-button md-ink-ripple\"]");
+    private final By submitEmailEstimate = By.xpath("//button[contains(text(),\"Email Estimate\")]");
 
     private final By virtualMClass = By.xpath("//div[contains(text(),\"VM class: \")]");
     private final By instanceType = By.xpath("//div[contains(text(),\"Instance type: \")]");
@@ -102,6 +103,13 @@ public class CalculatorFrame {
         click(submitAddToEstimateComputeEngineForm);
         return this;
     }
+
+    public EmailEstimatePage createEmailEstimate() {
+        click(submitEmailEstimate);
+        return new EmailEstimatePage(driver);
+    }
+
+
 
     public String getVMClass() {
         return driver.findElement(virtualMClass).getText();

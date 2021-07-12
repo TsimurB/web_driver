@@ -19,10 +19,10 @@ public class HurtMyPlenty {
         ChromeDriverProvider.getDriver();
     }
 
-//    @AfterAll
-//    public void closeDriver() {
-//        ChromeDriverProvider.getDriver().close();
-//    }
+    @AfterAll
+    public void closeDriver() {
+        ChromeDriverProvider.getDriver().close();
+    }
 
     @Test
     public void verifyThatTitleCorrectTest() {
@@ -31,7 +31,6 @@ public class HurtMyPlenty {
         String REGION = "Frankfurt (europe-west3)";
         String LOCALSSD = "2x375 GB";
         String COMMITMENTTERM = "1 Year";
-
 
         this.calculatorFrame = new CalculatorFrame(ChromeDriverProvider.getDriver());
         MainPage mainPage = new MainPage(ChromeDriverProvider.getDriver());
@@ -63,34 +62,4 @@ public class HurtMyPlenty {
                 .contains(COMMITMENTTERM);
         assertions.assertAll();
     }
-
-//    @Test
-//    public void verifyVMClassTest() {
-//        assertThat(estimatePage.getVMClass())
-//                .contains(VMCLASS);
-//    }
-
-//    @Test
-//    public void verifyInstanceTypeTest() {
-//        assertThat(estimatePage.getInstanceType())
-//                .contains(INSTANCETYPE.replaceAll("\\(.*\\)", "").trim());
-//    }
-
-//    @Test
-//    public void verifyRegionTest() {
-//        assertThat(estimatePage.getRegion())
-//                .contains(REGION.replaceAll("\\(.*\\)", "").trim());
-//    }
-
-//    @Test
-//    public void verifyLocalSSDTest() {
-//        assertThat(estimatePage.getLocalSSD().replaceAll("[GB | GiB]", "").trim())
-//                .contains(LOCALSSD.replaceAll("[GB | GiB]", "").trim());
-//    }
-
-//    @Test
-//    public void verifyCommitmentTermTest() {
-//        assertThat(estimatePage.getCommitmentTerm())
-//                .contains(COMMITMENTTERM);
-//    }
 }
