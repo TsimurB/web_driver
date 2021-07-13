@@ -1,29 +1,44 @@
 package pageobjectgooglecloud;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import static util.Util.*;
 
 public class EmailPage {
     private WebDriver driver;
-    private static final String EMAIL_PAGE_ADDRESS = "https://10minutemail.com";
-//    private final By createRandomeEmail = By.id("mail_address");
+    private By copyEmailButton = By.id("pre_copy");
+    public static final String TAB_NAME="Временная электронная почта";
+    private static final String EMAIL_PAGE_ADDRESS = "https://tempmail.plus/ru/#!";
 
     public EmailPage(WebDriver driver) {
         this.driver = driver;
     }
 
     public EmailPage open() {
-        driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + " t ");
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1));
-        driver.get(EMAIL_PAGE_ADDRESS);
+        openTab(EMAIL_PAGE_ADDRESS);
+        switchToTab(1);
         return this;
     }
 
-//    public CalculatorFrame copyEmail(String text){
-//        driver.get(createRandomeEmail).;
-//    }
+    public String copyEmail(){
+        click(copyEmailButton);
+        try {
+            return  (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

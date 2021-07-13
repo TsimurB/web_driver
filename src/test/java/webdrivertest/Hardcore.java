@@ -7,14 +7,20 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import pageobjectgooglecloud.CalculatorFrame;
+import pageobjectgooglecloud.EmailEstimatePage;
 import pageobjectgooglecloud.EmailPage;
 import pageobjectgooglecloud.MainPage;
+
+import static util.Util.switchToTab;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class Hardcore {
     private CalculatorFrame calculatorFrame;
+    public WebDriver driver;
 
     @BeforeAll
     public void openDriver() {
@@ -36,7 +42,7 @@ public class Hardcore {
 
         this.calculatorFrame = new CalculatorFrame(ChromeDriverProvider.getDriver());
         MainPage mainPage = new MainPage(ChromeDriverProvider.getDriver());
-        mainPage.open()
+        EmailEstimatePage emailEstimatePage = mainPage.open()
                 .searchPage("Google Cloud Platform Pricing Calculator" + "\n")
                 .findCalk()
                 .switchToCalculator()
@@ -54,8 +60,10 @@ public class Hardcore {
                 .createEmailEstimate();
 
         EmailPage emailPage = new EmailPage(ChromeDriverProvider.getDriver());
-        emailPage.open();
-
+        String email = emailPage.open()
+        .copyEmail();
+        switchToTab(0);
+        emailEstimatePage.typeEmail(email);
 
     }
 }

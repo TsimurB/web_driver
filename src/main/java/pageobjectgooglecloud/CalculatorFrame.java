@@ -22,6 +22,7 @@ public class CalculatorFrame {
     private final By datacenterLocationDDD = By.xpath("//label[text()=\"Datacenter location\"]/following-sibling::md-select");
     private final By committedUsageDDD = By.xpath("//label[text()=\"Committed usage\"]/following-sibling::md-select");
     private final By submitAddToEstimateComputeEngineForm = By.xpath("//form[@name=\"ComputeEngineForm\"]//button[@class=\"md-raised md-primary cpc-button md-button md-ink-ripple\"]");
+    private final By submitEmailEstimate = By.xpath("//button[contains(text(),\"Email Estimate\")]");
 
     private final By virtualMClass = By.xpath("//div[contains(text(),\"VM class: \")]");
     private final By instanceType = By.xpath("//div[contains(text(),\"Instance type: \")]");
@@ -44,7 +45,6 @@ public class CalculatorFrame {
         driver.findElement(numberOfInstances).sendKeys(text);
         return this;
     }
-
 
     public CalculatorFrame setOperatingSystemAndSoftware(String text) {
 
@@ -94,6 +94,7 @@ public class CalculatorFrame {
 
     public CalculatorFrame setCommittedUsage(String type) {
         driver.findElement(committedUsageDDD).sendKeys(type);
+//        click(By.xpath(String.format("//md-option/div[contains(text(),'%s')]", type)));
         clickAway();
         return this;
     }
@@ -101,6 +102,14 @@ public class CalculatorFrame {
     public CalculatorFrame createEstimatePage() {
         click(submitAddToEstimateComputeEngineForm);
         return this;
+    }
+
+    public EmailEstimatePage createEmailEstimate() {
+
+        click(submitEmailEstimate);
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[contains(@src,'https://cloud.google.com/products/calculator/index')]")));
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[contains(@src,'https://cloudpricingcalculator.appspot.com?hl=ru')]")));
+        return new EmailEstimatePage(driver);
     }
 
     public String getVMClass() {
@@ -111,9 +120,13 @@ public class CalculatorFrame {
         return driver.findElement(instanceType).getText();
     }
 
-    public String getRegion() { return driver.findElement(region).getText(); }
+    public String getRegion() {
+        return driver.findElement(region).getText();
+    }
 
-    public String getLocalSSD() { return driver.findElement(localSSDcheck).getText(); }
+    public String getLocalSSD() {
+        return driver.findElement(localSSDcheck).getText();
+    }
 
     public String getCommitmentTerm() {
         return driver.findElement(commitmentTerm).getText();
@@ -126,5 +139,6 @@ public class CalculatorFrame {
         sleep(500);
     }
 
-
+//    public void createEmailEstimate() {
+//    }
 }
