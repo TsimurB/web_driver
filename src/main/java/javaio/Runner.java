@@ -28,14 +28,14 @@ public class Runner {
             System.out.println(DirectoryReader.printDirectoryTree(new File(path)));
         } else {
             createDirectoryStructureFromFile(PATH_TO_TESTDIR, path);
-            System.out.println(DirectoryReader.printDirectoryTree(new File(PATH_TO_TESTDIR + "/Amon Amarth_1")));
-            var numberOfFolders = Files.walk(Paths.get(PATH_TO_TESTDIR + "/Amon Amarth_1"))
+            System.out.println(DirectoryReader.printDirectoryTree(new File(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1")));
+            var numberOfFolders = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
                     .map(Path::toFile)
                     .skip(ROOT_FOLDER_INDEX)
                     .filter(File::isDirectory)
                     .count();
 
-            var numberOfFiles = Files.walk(Paths.get(PATH_TO_TESTDIR + "/Amon Amarth_1"))
+            var numberOfFiles = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
                     .map(Path::toFile)
                     .skip(ROOT_FOLDER_INDEX)
                     .filter(File::isDirectory)
@@ -44,7 +44,7 @@ public class Runner {
                     .filter(e -> !e.isDirectory())
                     .count();
 
-            var avgNumberOfFiles = Files.walk(Paths.get(PATH_TO_TESTDIR + "/Amon Amarth_1"))
+            var avgNumberOfFiles = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
                     .map(Path::toFile)
                     .skip(ROOT_FOLDER_INDEX)
                     .filter(File::isDirectory)
@@ -52,7 +52,7 @@ public class Runner {
                     .average()
                     .getAsDouble();
 
-            var avgFileNames = Files.walk(Paths.get(PATH_TO_TESTDIR + "/Amon Amarth_1"))
+            var avgFileNames = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
                     .map(Path::toFile)
                     .skip(ROOT_FOLDER_INDEX)
                     .filter(File::isDirectory)
