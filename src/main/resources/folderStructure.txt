@@ -1,4 +1,4 @@
-Amon Amarth
+Amon Amarth_1
  | - - - -2004 - Fate Of Norns
  |        01 - An Ancient Sign Of Coming Storm copy.mp3
  |        02 - Where Death Seems To Dwell.mp3
@@ -8,3 +8,4 @@ Amon Amarth
  | - - - -2019 - Berserker
  |        01 Fafner's Gold.mp3
  |        02 Crack the Sky.mp3
+ |        03 Crack the Moon.mp3
