@@ -9,10 +9,13 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static driver.ChromeDriverProvider.getDriver;
 
-public abstract class Util {
+public class Util {
+    private static final String EMAIL_PAGE_ADDRESS = "https://tempmail.plus/ru/#!";
     public static void sleep(int time) {
         try {
             Thread.sleep(time);
@@ -32,10 +35,20 @@ public abstract class Util {
         sleep(500);
     }
 
-    private static Wait getWait(int seconds){
+    private static Wait getWait(int seconds) {
         return new FluentWait<>(ChromeDriverProvider.getDriver())
                 .withTimeout(Duration.ofSeconds(seconds))
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(Exception.class);
+    }
+
+    public static void openTab(String address) {
+        ((JavascriptExecutor) ChromeDriverProvider.getDriver()).executeScript(String.format("window.open('%s');",address));
+    }
+
+    public static void switchToTab(int tabIndex){
+        List<String> requireTab = ChromeDriverProvider.getDriver().getWindowHandles().stream()
+               .collect(Collectors.toList());
+        ChromeDriverProvider.getDriver().switchTo().window(requireTab.get(tabIndex));
     }
 }

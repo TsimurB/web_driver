@@ -46,7 +46,6 @@ public class CalculatorFrame {
         return this;
     }
 
-
     public CalculatorFrame setOperatingSystemAndSoftware(String text) {
 
         click(operatingSystemAndSoftwareDDD);
@@ -95,6 +94,7 @@ public class CalculatorFrame {
 
     public CalculatorFrame setCommittedUsage(String type) {
         driver.findElement(committedUsageDDD).sendKeys(type);
+//        click(By.xpath(String.format("//md-option/div[contains(text(),'%s')]", type)));
         clickAway();
         return this;
     }
@@ -105,11 +105,12 @@ public class CalculatorFrame {
     }
 
     public EmailEstimatePage createEmailEstimate() {
+
         click(submitEmailEstimate);
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[contains(@src,'https://cloud.google.com/products/calculator/index')]")));
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[contains(@src,'https://cloudpricingcalculator.appspot.com?hl=ru')]")));
         return new EmailEstimatePage(driver);
     }
-
-
 
     public String getVMClass() {
         return driver.findElement(virtualMClass).getText();
@@ -119,9 +120,13 @@ public class CalculatorFrame {
         return driver.findElement(instanceType).getText();
     }
 
-    public String getRegion() { return driver.findElement(region).getText(); }
+    public String getRegion() {
+        return driver.findElement(region).getText();
+    }
 
-    public String getLocalSSD() { return driver.findElement(localSSDcheck).getText(); }
+    public String getLocalSSD() {
+        return driver.findElement(localSSDcheck).getText();
+    }
 
     public String getCommitmentTerm() {
         return driver.findElement(commitmentTerm).getText();
@@ -134,5 +139,6 @@ public class CalculatorFrame {
         sleep(500);
     }
 
-
+//    public void createEmailEstimate() {
+//    }
 }
