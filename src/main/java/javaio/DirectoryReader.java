@@ -1,9 +1,7 @@
 package javaio;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class DirectoryReader {
@@ -23,19 +21,18 @@ public class DirectoryReader {
     }
 
     private static void printDirectoryTree(File folder, int indent, StringBuilder sb) {
-
         if (!folder.isHidden()) {
-        sb.append(getIndentString(folder, indent));
-        sb.append(folder.getName());
-        sb.append("\n");
-        for (File file : Arrays.stream(folder.listFiles()).sorted().collect(Collectors.toList())) {
-            if (file.isDirectory()) {
-                printDirectoryTree(file, indent + 1, sb);
-            } else {
-                printFile(file, sb);
+            sb.append(getIndentString(folder, indent));
+            sb.append(folder.getName());
+            sb.append("\n");
+            for (File file : Arrays.stream(folder.listFiles()).sorted().collect(Collectors.toList())) {
+                if (file.isDirectory()) {
+                    printDirectoryTree(file, indent + 1, sb);
+                } else {
+                    printFile(file, sb);
+                }
             }
         }
-    }
     }
 
     private static void printFile(File file, StringBuilder sb) {
