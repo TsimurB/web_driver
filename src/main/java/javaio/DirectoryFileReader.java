@@ -16,14 +16,14 @@ public class DirectoryFileReader {
     public static void createDirectoryStructureFromFile(String rootToWriteTo, String pathToFile) throws IOException {
         try {
             File file = new File(pathToFile);
-            Scanner myReader = new Scanner(file);
+            Scanner scanner = new Scanner(file);
 
             String lastFolder = "";
 
-            String root = rootToWriteTo + "/" + myReader.nextLine() + "/";
+            String root = rootToWriteTo + File.separator + scanner.nextLine() + File.separator;
 
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
+            while (scanner.hasNextLine()) {
+                String data = scanner.nextLine();
                 StringBuilder sb = new StringBuilder();
 
                 if (!data.equals(ROOT_FOLDER) && isFolder(data)) {
@@ -36,7 +36,7 @@ public class DirectoryFileReader {
                     new File(sb.toString().replace(FILE_SEPARATOR_PATTERN, "")).createNewFile();
                 }
             }
-            myReader.close();
+            scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
