@@ -29,6 +29,7 @@ public class Runner {
         } else {
             createDirectoryStructureFromFile(PATH_TO_TESTDIR, path);
             System.out.println(DirectoryReader.printDirectoryTree(new File(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1")));
+
             var numberOfFolders = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
                     .map(Path::toFile)
                     .skip(ROOT_FOLDER_INDEX)
