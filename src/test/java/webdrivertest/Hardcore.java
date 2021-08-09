@@ -1,14 +1,9 @@
 package webdrivertest;
 
 import driver.ChromeDriverProvider;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import pageobjectgooglecloud.CalculatorFrame;
 import pageobjectgooglecloud.EmailEstimatePage;
@@ -24,7 +19,7 @@ public class Hardcore {
 
     @BeforeAll
     public void openDriver() {
-        ChromeDriverProvider.getDriver();
+        driver = ChromeDriverProvider.getDriver();
     }
 
 //    @AfterAll

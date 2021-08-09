@@ -2,12 +2,13 @@ package pageobjectgooglecloud;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
 public class GoogleCloudPricingCalculator {
-    private WebDriver driver;
+    private ChromeDriver driver;
 
-    public GoogleCloudPricingCalculator(WebDriver driver) {
+    public GoogleCloudPricingCalculator(ChromeDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }

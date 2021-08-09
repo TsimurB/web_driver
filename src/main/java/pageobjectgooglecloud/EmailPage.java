@@ -1,27 +1,22 @@
 package pageobjectgooglecloud;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+
 
 import static util.Util.*;
 
 public class EmailPage {
-    private WebDriver driver;
+    private ChromeDriver driver;
     private By copyEmailButton = By.id("pre_copy");
     public static final String TAB_NAME="Временная электронная почта";
     private static final String EMAIL_PAGE_ADDRESS = "https://tempmail.plus/ru/#!";
 
-    public EmailPage(WebDriver driver) {
+    public EmailPage(ChromeDriver driver) {
         this.driver = driver;
     }
 
