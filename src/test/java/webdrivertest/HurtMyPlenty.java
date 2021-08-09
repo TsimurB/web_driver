@@ -2,7 +2,6 @@ package webdrivertest;
 
 import driver.ChromeDriverProvider;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
