@@ -33,7 +33,7 @@ public class ParkingManager {
     private static List<Car> initCars(int numberOfCars) {
         List<Car> listOfCars = new ArrayList<>();
         for (int i = 0; i < numberOfCars; i++) {
-            listOfCars.add(new Car("Texas-" + i));
+            listOfCars.add(new Car("Gomel-" + i));
         }
         return listOfCars;
     }
