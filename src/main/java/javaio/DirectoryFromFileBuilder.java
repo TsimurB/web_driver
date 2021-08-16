@@ -5,15 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static javaio.DirectoryReader.*;
+import static javaio.DirectoryReader.FILE_SEPARATOR_PATTERN;
+import static javaio.DirectoryReader.FOLDER_SEPARATOR_PATTERN;
 
-public class DirectoryFileReader {
+public class DirectoryFromFileBuilder {
 
-    private static boolean isFolder(String line) {
-        return line.startsWith(FOLDER_SEPARATOR_PATTERN) || line.startsWith(ROOT_FOLDER);
-    }
+    public static final String ROOT_FOLDER_NAME = "Amon Amarth";
 
-    public static void createDirectoryStructureFromFile(String rootToWriteTo, String pathToFile) throws IOException {
+    public void parseFileAndCreateDirectories(String rootToWriteTo, String pathToFile) throws IOException {
         try {
             File file = new File(pathToFile);
             Scanner scanner = new Scanner(file);
@@ -26,7 +25,7 @@ public class DirectoryFileReader {
                 String data = scanner.nextLine();
                 StringBuilder sb = new StringBuilder();
 
-                if (!data.equals(ROOT_FOLDER) && isFolder(data)) {
+                if (!data.equals(ROOT_FOLDER_NAME) && isFolder(data)) {
                     lastFolder = sb.append(data).toString().replace(FOLDER_SEPARATOR_PATTERN, "");
                     new File(root + lastFolder).mkdirs();
                 } else if (!isFolder(data)) {
@@ -40,5 +39,9 @@ public class DirectoryFileReader {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private static boolean isFolder(String line) {
+        return line.startsWith(FOLDER_SEPARATOR_PATTERN) || line.startsWith(ROOT_FOLDER_NAME);
     }
 }
