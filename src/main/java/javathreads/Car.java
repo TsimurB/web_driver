@@ -47,7 +47,7 @@ public class Car implements Runnable {
 
     public void parkForTime(int timeMillis) {
         sleep(timeMillis);
-        System.out.printf("Car '%s' has been parked for '%s' millis%n", getCarNumber(), timeMillis);
+        System.out.printf("Car '%s' has been parked for '%s' millis %n", getCarNumber(), timeMillis);
     }
 
     private static int addRandomNumberOfMillis(int min, int max) {
