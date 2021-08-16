@@ -28,7 +28,7 @@ public class Car implements Runnable {
                 waitForFreeParkingPlace(MILLIS_TO_WAIT_FOR_AVAILABLE_PARKING);
                 launchParkingTask();
             } else System.out.printf(
-                    "I'm car '%s', I am waited for %s millis, will find another place somewhere else%n",
+                    "I'm car '%s', I am waited for %s millis, will find another place somewhere else %n",
                     getCarNumber(),
                     MILLIS_TO_WAIT_FOR_AVAILABLE_PARKING
             );
