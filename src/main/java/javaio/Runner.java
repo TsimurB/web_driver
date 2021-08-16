@@ -1,67 +1,40 @@
 package javaio;
 
+import javaio.taskstrategy.TaskWorker;
+import javaio.taskstrategy.TxtParserTaskWorker;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
-import static javaio.DirectoryFileReader.createDirectoryStructureFromFile;
 
 public class Runner {
 
-    private static final String PATH_TO_ROOT = "src/main/resources/Amon Amarth";
-    private static final int ROOT_FOLDER_INDEX = 1;
-    private static final String PATH_TO_TESTDIR = "src/main/resources";
-    private static final String PATH_TO_TXT = "src/main/resources/folderStructure.txt";
+
+    private static final String DEFAULT_DIRECTORY_ROOT = "src/main/resources";
+    private static final String PATH_TO_TXT = "src/main/resources/fileToParse.txt";
+    private static final String PATH_TO_STRUCTURE = "src/main/resources/Amon Amarth";
 
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String path = reader.readLine();
+        TaskWorker taskWorker;
+
+        // creating default directories from txt
+        new DirectoryFromFileBuilder().parseFileAndCreateDirectories(DEFAULT_DIRECTORY_ROOT, PATH_TO_TXT);
+
         if (new File(path).isDirectory()) {
-            System.out.println(DirectoryReader.printDirectoryTree(new File(path)));
+            DirectoryReader.writeDirectoryTreeIntoFile(new File(path));
         } else {
-            createDirectoryStructureFromFile(PATH_TO_TESTDIR, path);
-            System.out.println(DirectoryReader.printDirectoryTree(new File(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1")));
-            var numberOfFolders = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
-                    .map(Path::toFile)
-                    .skip(ROOT_FOLDER_INDEX)
-                    .filter(File::isDirectory)
-                    .count();
+            taskWorker = new TxtParserTaskWorker(path);
+            var numberOfFolders = taskWorker.countFolders();
 
-            var numberOfFiles = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
-                    .map(Path::toFile)
-                    .skip(ROOT_FOLDER_INDEX)
-                    .filter(File::isDirectory)
-                    .map(e -> Arrays.stream(e.listFiles()).collect(Collectors.toList()))
-                    .flatMap(Collection::stream)
-                    .filter(e -> !e.isDirectory())
-                    .count();
+            var numberOfFiles = taskWorker.countFiles();
 
-            var avgNumberOfFiles = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
-                    .map(Path::toFile)
-                    .skip(ROOT_FOLDER_INDEX)
-                    .filter(File::isDirectory)
-                    .mapToDouble(e -> Arrays.stream(e.listFiles()).filter(c -> !c.isDirectory()).count())
-                    .average()
-                    .getAsDouble();
+            var avgNumberOfFiles = taskWorker.countAverageFilesInFolder();
 
-            var avgFileNames = Files.walk(Paths.get(PATH_TO_TESTDIR + File.separator + "Amon Amarth_1"))
-                    .map(Path::toFile)
-                    .skip(ROOT_FOLDER_INDEX)
-                    .filter(File::isDirectory)
-                    .map(e -> Arrays.stream(e.listFiles()).collect(Collectors.toList()))
-                    .flatMap(Collection::stream)
-                    .filter(e -> !e.isDirectory())
-                    .mapToDouble(file -> file.getName().length())
-                    .average()
-                    .getAsDouble();
+            var avgFileNames = taskWorker.countAverageFileNameLength();
 
             System.out.println("Number of folders - " + numberOfFolders);
             System.out.println("Number of files - " + numberOfFiles);
