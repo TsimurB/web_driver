@@ -1,46 +1,47 @@
 package javaio;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class DirectoryReader {
 
-    public static final String ROOT_FOLDER = "Amon Amarth";
-    public static final String FOLDER_SEPARATOR_PATTERN = " | - - - -";
-    public static final String FILE_SEPARATOR_PATTERN = " |        ";
+    public static final String FOLDER_SEPARATOR_PATTERN = "    |-----";
+    public static final String FILE_SEPARATOR_PATTERN = "    |       ";
+    public static final String TXT_WITH_STRUCTURE_NAME = "src/main/resources/structure.txt";
 
-    public static String printDirectoryTree(File folder) {
+    public static void writeDirectoryTreeIntoFile(File folder) throws IOException {
         if (!folder.isDirectory()) {
             throw new IllegalArgumentException("Not a directory, provide path to directory");
         }
         int indent = 0;
-        StringBuilder sb = new StringBuilder();
-        printDirectoryTree(folder, indent, sb);
-        return sb.toString();
+        FileWriter fileWriter = new FileWriter(TXT_WITH_STRUCTURE_NAME);
+        PrintWriter pw = new PrintWriter(fileWriter);
+        writeDirectoryTreeIntoFile(folder, indent, pw);
+        System.out.println("FILE WITH STRUCTURE ==>: " + TXT_WITH_STRUCTURE_NAME);
+        pw.close();
     }
 
-    private static void printDirectoryTree(File folder, int indent, StringBuilder sb) {
-        if (!folder.isHidden()) {
-            sb.append(getIndentString(folder, indent));
-            sb.append(folder.getName());
-            sb.append("\n");
-            for (File file : Arrays.stream(folder.listFiles()).sorted().collect(Collectors.toList())) {
-                if (file.isDirectory()) {
-                    printDirectoryTree(file, indent + 1, sb);
-                } else {
-                    printFile(file, sb);
-                }
+    private static void writeDirectoryTreeIntoFile(File folder, int indent, PrintWriter pw) {
+        pw.printf(getIndentString(folder, indent));
+        pw.printf(folder.getName());
+        pw.printf("\n");
+        for (File file : Arrays.stream(folder.listFiles()).sorted().collect(Collectors.toList())) {
+            if (file.isDirectory()) {
+                writeDirectoryTreeIntoFile(file, indent + 1, pw);
+            } else {
+                writeFile(file, pw);
             }
         }
     }
 
-    private static void printFile(File file, StringBuilder sb) {
-        if (!file.isHidden()) {
-            sb.append(FILE_SEPARATOR_PATTERN);
-            sb.append(file.getName());
-            sb.append("\n");
-        }
+    private static void writeFile(File file, PrintWriter pw) {
+        pw.printf(FILE_SEPARATOR_PATTERN);
+        pw.printf(file.getName());
+        pw.printf("\n");
     }
 
     private static String getIndentString(File file, int indent) {
