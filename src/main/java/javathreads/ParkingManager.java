@@ -2,13 +2,17 @@ package javathreads;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+import static javathreads.Car.MILLIS_TO_WAIT_FOR_AVAILABLE_PARKING;
 
 public class ParkingManager {
 
     private static final int NUMBER_OF_PARKING_PLACES = 2;
     private static final int NUMBER_OF_CARS = 4;
-    private static final Vector<ParkingPlace> listOfAvailablePlaces = new Vector<>();
+    public static BlockingQueue<ParkingPlace> listOfAvailablePlaces = new ArrayBlockingQueue<ParkingPlace>(NUMBER_OF_PARKING_PLACES);
 
     public static void main(String[] args) {
         listOfAvailablePlaces.addAll(initParkingPlaces(NUMBER_OF_PARKING_PLACES));
@@ -33,15 +37,21 @@ public class ParkingManager {
     private static List<Car> initCars(int numberOfCars) {
         List<Car> listOfCars = new ArrayList<>();
         for (int i = 0; i < numberOfCars; i++) {
-            listOfCars.add(new Car("Gomel-" + i));
+            listOfCars.add(new Car("Gomel-Texas " + i));
         }
         return listOfCars;
     }
 
-    public static synchronized ParkingPlace getFreeParkingPlace() {
-        return listOfAvailablePlaces.stream()
-                .filter(e -> !e.isOccupied())
-                .findAny()
-                .orElse(null);
+    public static ParkingPlace getFreeParkingPlace() {
+        try {
+            return listOfAvailablePlaces.poll(MILLIS_TO_WAIT_FOR_AVAILABLE_PARKING, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+//        return listOfAvailablePlaces.stream()
+//                .filter(e -> !e.isOccupied())
+//                .findAny()
+//                .orElse(null);
     }
 }

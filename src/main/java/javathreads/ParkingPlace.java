@@ -1,5 +1,7 @@
 package javathreads;
 
+import static javathreads.ParkingManager.listOfAvailablePlaces;
+
 public class ParkingPlace {
 
     public int placeNumber;
@@ -22,9 +24,6 @@ public class ParkingPlace {
     public void release() {
         System.out.printf("Car '%s' has left the parking place%n", occupiedByCar.getCarNumber());
         occupiedByCar = null;
-    }
-
-    public boolean isOccupied() {
-        return occupiedByCar != null;
+        listOfAvailablePlaces.add(this);
     }
 }
