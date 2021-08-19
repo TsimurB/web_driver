@@ -3,13 +3,11 @@ package javathreads;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static javathreads.ParkingManager.getFreeParkingPlace;
-import static util.Util.sleep;
 
 public class Car implements Runnable {
 
     private final String carNumber;
-    private boolean hasTriedToPark = false;
-    private static final int MILLIS_TO_WAIT_FOR_AVAILABLE_PARKING = 3000;
+    public static final int MILLIS_TO_WAIT_FOR_AVAILABLE_PARKING = 3000;
     private static final int MILLIS_TO_OCCUPY_PARKING_PLACE = 2000;
 
     public Car(String carNumber) {
@@ -21,13 +19,9 @@ public class Car implements Runnable {
     }
 
     public void launchParkingTask() {
-
         ParkingPlace parkingPlace = getFreeParkingPlace();
         if (parkingPlace == null) {
-            if (!hasTriedToPark) {
-                waitForFreeParkingPlace(MILLIS_TO_WAIT_FOR_AVAILABLE_PARKING);
-                launchParkingTask();
-            } else System.out.printf(
+            System.out.printf(
                     "I'm car '%s', I am waited for %s millis, will find another place somewhere else %n",
                     getCarNumber(),
                     MILLIS_TO_WAIT_FOR_AVAILABLE_PARKING
@@ -39,14 +33,13 @@ public class Car implements Runnable {
         }
     }
 
-    public void waitForFreeParkingPlace(int timeToWaitMillis) {
-        System.out.printf("Car '%s' has been denied parking, will wait for '%s' millis %n", getCarNumber(), timeToWaitMillis);
-        sleep(timeToWaitMillis);
-        hasTriedToPark = true;
-    }
-
-    public void parkForTime(int timeMillis) {
-        sleep(timeMillis);
+    public synchronized void parkForTime(int timeMillis) {
+        try {
+            wait(timeMillis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        notifyAll();
         System.out.printf("Car '%s' has been parked for '%s' millis %n", getCarNumber(), timeMillis);
     }
 
