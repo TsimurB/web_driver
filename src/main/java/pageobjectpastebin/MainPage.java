@@ -3,6 +3,7 @@ package pageobjectpastebin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -11,7 +12,7 @@ import static util.Util.sleep;
 public class MainPage {
 
     private static final String PAGE_ADDRESS = "https://pastebin.com";
-    private WebDriver driver;
+    private ChromeDriver driver;
     private By pasteField = By.id("postform-text");
     private By pasteExpirationDDL = By.id("select2-postform-expiration-container");
     private By pasteNameTitle = By.id("postform-name");
@@ -23,7 +24,7 @@ public class MainPage {
 //    private WebElement input;
 
 
-    public MainPage(WebDriver driver) {
+    public MainPage(ChromeDriver driver) {
                 this.driver = driver;
         PageFactory.initElements(driver, this);
     }

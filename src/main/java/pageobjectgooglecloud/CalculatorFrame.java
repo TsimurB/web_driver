@@ -1,8 +1,8 @@
 package pageobjectgooglecloud;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import static util.Util.click;
 import static util.Util.sleep;
@@ -30,9 +30,9 @@ public class CalculatorFrame {
     private final By localSSDcheck = By.xpath("//div[contains(text(),\"local SSD \")]");
     private final By commitmentTerm = By.xpath("//div[contains(text(),\"Commitment term: \")]");
 
-    private final WebDriver driver;
+    private final ChromeDriver driver;
 
-    public CalculatorFrame(WebDriver driver) {
+    public CalculatorFrame(ChromeDriver driver) {
         this.driver = driver;
     }
 
