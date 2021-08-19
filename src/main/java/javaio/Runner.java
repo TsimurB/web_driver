@@ -46,9 +46,19 @@ public class Runner {
 
             System.out.println("Number of folders - " + numberOfFolders);
             System.out.println("Number of files - " + numberOfFiles);
+//            if (numberOfFolders == 0) {
+//                avgFileNames = numberOfFiles;
+//            } else {
+//                System.out.println("Average number of files inside folders - " + avgNumberOfFiles);
+//            }
             System.out.println("Average number of files inside folders - " + avgNumberOfFiles);
-            System.out.println("Average length of file names - " + avgFileNames);
+
+            if (numberOfFiles == 0) {
+                throw new ArithmeticException();
+            } else {
+            System.out.println("Average length of file names - " + avgFileNames);}
 
         }
     }
+
 }

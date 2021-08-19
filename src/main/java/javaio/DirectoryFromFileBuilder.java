@@ -18,6 +18,7 @@ public class DirectoryFromFileBuilder {
             Scanner scanner = new Scanner(file);
 
             String lastFolder = "";
+//            String lastFile = "";
 
             String root = rootToWriteTo + File.separator + scanner.nextLine() + File.separator;
 

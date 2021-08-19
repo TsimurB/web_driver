@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class DirectoryReader {
@@ -29,17 +30,18 @@ public class DirectoryReader {
         pw.printf(getIndentString(folder, indent));
         pw.printf(folder.getName());
         pw.printf("\n");
-        for (File file : Arrays.stream(folder.listFiles()).sorted().collect(Collectors.toList())) {
+        for (File file : Arrays.stream(Objects.requireNonNull(folder.listFiles())).sorted().collect(Collectors.toList())) {
             if (file.isDirectory()) {
                 writeDirectoryTreeIntoFile(file, indent + 1, pw);
             } else {
-                writeFile(file, pw);
+                writeFile(file, indent, pw);
             }
         }
     }
 
-    private static void writeFile(File file, PrintWriter pw) {
-        pw.printf(FILE_SEPARATOR_PATTERN);
+    private static void writeFile(File file, int indent, PrintWriter pw) {
+        pw.printf(getIndentString(file, indent));
+//        pw.printf(FILE_SEPARATOR_PATTERN);
         pw.printf(file.getName());
         pw.printf("\n");
     }
@@ -49,6 +51,9 @@ public class DirectoryReader {
         for (int i = 0; i < indent; i++) {
             if (file.isDirectory()) {
                 sb.append(FOLDER_SEPARATOR_PATTERN);
+            }
+            if (file.isFile()){
+                sb.append(FILE_SEPARATOR_PATTERN);
             }
         }
         return sb.toString();
